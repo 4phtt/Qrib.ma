@@ -1,0 +1,10 @@
+/* Corrections et ajouts pour la version statique (HTML/CSS) */
+.card-link{display:contents;color:inherit;text-decoration:none}
+.popular{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px}
+.popular a.btn{min-height:0;padding:0;color:var(--white);background:none;text-underline-offset:3px;text-decoration:underline;font-weight:600}
+.tabs a{color:var(--muted);padding:12px 0;font-weight:700}
+.switch-auth a{color:var(--blue-600);font-weight:700}
+.footer-grid a{color:#9daabd}
+.footer-grid a:hover{color:var(--white)}
+a.btn{text-decoration:none}
+a.btn-link,.breadcrumbs a{cursor:pointer}
