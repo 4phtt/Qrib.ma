@@ -1,4 +1,24 @@
-{ 
-"$schema": "https://openapi.vercel.sh/vercel.json", 
-"cleanUrls": true 
-} 
+{
+  "functions": {
+    "api/*.php": {
+      "runtime": "vercel-php@0.9.0"
+    }
+  },
+  "rewrites": [
+    { "source": "/", "destination": "/api/index.php" },
+    { "source": "/index.html", "destination": "/api/index.php" },
+    { "source": "/index.php", "destination": "/api/index.php" },
+    { "source": "/annonces.html", "destination": "/api/annonces.php" },
+    { "source": "/annonces.php", "destination": "/api/annonces.php" },
+    { "source": "/categorie.html", "destination": "/api/categorie.php" },
+    { "source": "/categorie.php", "destination": "/api/categorie.php" },
+    { "source": "/annonce.html", "destination": "/api/annonce.php" },
+    { "source": "/annonce.php", "destination": "/api/annonce.php" },
+    { "source": "/signup.html", "destination": "/api/signup.php" },
+    { "source": "/signup.php", "destination": "/api/signup.php" },
+    { "source": "/login.html", "destination": "/api/login.php" },
+    { "source": "/login.php", "destination": "/api/login.php" },
+    { "source": "/publier.html", "destination": "/api/publier.php" },
+    { "source": "/publier.php", "destination": "/api/publier.php" }
+  ]
+}
