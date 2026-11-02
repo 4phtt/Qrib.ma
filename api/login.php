@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 renderPageStart('Connexion');
 ?>
-<main class="auth-page"><section class="auth-card">
+<main class="auth-page auth-page-centered"><section class="auth-card">
   <div class="page-title">Ravi de vous revoir</div><div class="muted">Connectez-vous pour publier et gérer vos annonces.</div>
   <?php renderFlash(); ?><?php if ($error): ?><p class="form-message error" role="alert"><?= h($error) ?></p><?php endif; ?>
   <form action="login.php" class="auth-form" method="post">

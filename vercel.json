@@ -19,6 +19,7 @@
     { "source": "/login.html", "destination": "/api/login.php" },
     { "source": "/login.php", "destination": "/api/login.php" },
     { "source": "/publier.html", "destination": "/api/publier.php" },
-    { "source": "/publier.php", "destination": "/api/publier.php" }
+    { "source": "/publier.php", "destination": "/api/publier.php" },
+    { "source": "/logout.php", "destination": "/api/logout.php" }
   ]
 }

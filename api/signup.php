@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 renderPageStart('Créer un compte');
 ?>
-<main class="auth-page"><section class="auth-card signup-card">
+<main class="auth-page auth-page-centered"><section class="auth-card signup-card">
   <div class="page-title">Créer un compte</div><div class="muted">Rejoignez la communauté Qrib.ma</div>
   <?php renderFlash(); ?><?php if ($error): ?><p class="form-message error" role="alert"><?= h($error) ?></p><?php endif; ?>
   <form action="signup.php" class="signup-fields" method="post">

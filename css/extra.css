@@ -25,6 +25,12 @@ a.btn-link,.breadcrumbs a{cursor:pointer}
 .result-list .ads-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .category-ad-grid{margin-top:24px}
 @media(max-width:720px){.result-list .ads-grid{grid-template-columns:1fr}}
-.auth-page{display:flex;align-items:center;justify-content:center;padding:32px 0;background:var(--soft)}
-.auth-page .auth-card{width:min(430px,calc(100% - 40px))}
-.auth-page .signup-card{width:min(680px,calc(100% - 40px))}
+.auth-page:not(.auth-page-centered){display:grid;grid-template-columns:50% 50%;min-height:100vh;padding:0;background:var(--white)}
+.auth-page.auth-page-centered{display:flex;align-items:center;justify-content:center;padding:32px 0;background:var(--soft)}
+.auth-page.auth-page-centered .auth-card{width:min(430px,calc(100% - 40px))}
+.auth-page.auth-page-centered .signup-card{width:min(680px,calc(100% - 40px))}
+@media(max-width:700px){.auth-page:not(.auth-page-centered){grid-template-columns:1fr}.auth-page:not(.auth-page-centered) .auth-aside{min-height:260px;padding:32px 8%}.auth-page:not(.auth-page-centered) .auth-quote{margin:40px 0 20px;font-size:28px}}
+.current-photos-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.current-photos-grid img{width:100px;height:80px;object-fit:cover;border:1px solid var(--line);border-radius:var(--radius-sm)}
+.form-actions .btn{margin-right:8px}
+.logout-form{display:inline-flex;margin:0}

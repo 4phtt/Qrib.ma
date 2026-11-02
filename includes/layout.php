@@ -11,7 +11,11 @@ function renderHeader()
     echo '<div class="nav-search"><form action="annonces.php" method="get"><input class="field" name="q" placeholder="Que cherchez-vous ?" type="search" value="' . h($searchQuery) . '"></form></div>';
     echo '<div class="nav-actions"><a class="btn btn-ghost" href="annonces.php">Annonces</a>';
     echo '<a class="btn btn-ghost" href="' . (!empty($_SESSION['annonceur_id']) ? 'publier.php' : 'login.php') . '">' . h($accountLabel) . '</a>';
-    echo '<a class="btn btn-primary" href="publier.php">Déposer une annonce</a></div>';
+    echo '<a class="btn btn-primary" href="publier.php">Déposer une annonce</a>';
+    if (!empty($_SESSION['annonceur_id'])) {
+        echo '<form action="logout.php" method="post" class="logout-form"><input type="hidden" name="csrf_token" value="' . h(csrfToken()) . '"><button class="btn btn-outline" type="submit">Se déconnecter</button></form>';
+    }
+    echo '</div>';
     echo '</div></header>';
 }
 

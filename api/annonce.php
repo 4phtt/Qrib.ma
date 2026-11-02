@@ -34,6 +34,9 @@ renderPageStart($ad ? $ad['titre'] : 'Annonce introuvable');
       </section>
       <aside class="seller-card">
         <div class="seller-row"><div class="avatar"><?= h(textInitials($ad['prenom'], $ad['nom'])) ?></div><div><div class="seller-name"><?= h($ad['prenom'] . ' ' . $ad['nom']) ?></div><div class="muted small">Vendeur à <?= h($ad['ville_vendeur']) ?></div></div></div>
+        <?php if (!empty($_SESSION['annonceur_id']) && (int) $_SESSION['annonceur_id'] === (int) $ad['id_annonceurs']): ?>
+          <a class="btn btn-outline wide" href="publier.php?id=<?= (int) $ad['id_annonce'] ?>">Modifier mon annonce</a>
+        <?php endif; ?>
         <div class="seller-contact"><strong>Coordonnées du vendeur</strong><a href="tel:<?= h($ad['telephone']) ?>"><?= h($ad['telephone']) ?></a><a href="mailto:<?= h($ad['email']) ?>"><?= h($ad['email']) ?></a></div>
         <a class="btn btn-primary wide" href="tel:<?= h($ad['telephone']) ?>">Appeler le vendeur</a>
         <a class="btn btn-secondary wide" href="mailto:<?= h($ad['email']) ?>">Écrire au vendeur</a>
