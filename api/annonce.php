@@ -2,7 +2,8 @@
 require_once __DIR__ . '/../includes/layout.php';
 $id = isset($_GET['id']) && is_string($_GET['id']) && ctype_digit($_GET['id']) ? (int) $_GET['id'] : 0;
 $statement = db()->prepare(
-    'SELECT a.*, c.nom_categorie, sc.nom_sous_categorie, u.nom, u.prenom, u.ville AS ville_vendeur, u.telephone, u.email
+    'SELECT a.*, sc.id_categorie, c.nom_categorie, sc.nom_sous_categorie,
+            u.nom, u.prenom, u.ville AS ville_vendeur, u.telephone, u.email
      FROM annonces a
      INNER JOIN sous_categorie sc ON sc.id_sous_categorie = a.id_sous_categorie
      INNER JOIN categorie c ON c.id_categorie = sc.id_categorie
