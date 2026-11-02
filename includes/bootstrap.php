@@ -13,6 +13,15 @@ class QribSessionHandler implements SessionHandlerInterface
     public function __construct($connection)
     {
         $this->connection = $connection;
+        $this->connection->exec(
+            'CREATE TABLE IF NOT EXISTS qrib_sessions (
+                session_id VARCHAR(256) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+                session_data MEDIUMBLOB NOT NULL,
+                last_activity INT UNSIGNED NOT NULL,
+                PRIMARY KEY (session_id),
+                KEY idx_qrib_sessions_last_activity (last_activity)
+            ) ENGINE=InnoDB'
+        );
     }
 
     public function open(string $path, string $name): bool
