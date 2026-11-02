@@ -6,7 +6,7 @@ class CsrfValidationException extends RuntimeException
 {
 }
 
-class QribSessionHandler
+class QribSessionHandler implements SessionHandlerInterface
 {
     private $connection;
 
@@ -15,17 +15,17 @@ class QribSessionHandler
         $this->connection = $connection;
     }
 
-    public function open($path, $name)
+    public function open(string $path, string $name): bool
     {
         return true;
     }
 
-    public function close()
+    public function close(): bool
     {
         return true;
     }
 
-    public function read($sessionId)
+    public function read(string $sessionId): string
     {
         $statement = $this->connection->prepare(
             'SELECT session_data FROM qrib_sessions WHERE session_id = :id AND last_activity >= :cutoff'
@@ -38,7 +38,7 @@ class QribSessionHandler
         return $data === false ? '' : $data;
     }
 
-    public function write($sessionId, $data)
+    public function write(string $sessionId, string $data): bool
     {
         $statement = $this->connection->prepare(
             'INSERT INTO qrib_sessions (session_id, session_data, last_activity)
@@ -52,13 +52,13 @@ class QribSessionHandler
         ]);
     }
 
-    public function destroy($sessionId)
+    public function destroy(string $sessionId): bool
     {
         $statement = $this->connection->prepare('DELETE FROM qrib_sessions WHERE session_id = :id');
         return $statement->execute([':id' => $sessionId]);
     }
 
-    public function gc($maxLifetime)
+    public function gc(int $maxLifetime): int
     {
         $statement = $this->connection->prepare('DELETE FROM qrib_sessions WHERE last_activity < :cutoff');
         $statement->execute([':cutoff' => time() - (int) $maxLifetime]);
@@ -75,15 +75,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
         ini_set('session.cookie_samesite', 'Lax');
     }
     $sessionHandler = new QribSessionHandler(db());
-    session_set_save_handler(
-        [$sessionHandler, 'open'],
-        [$sessionHandler, 'close'],
-        [$sessionHandler, 'read'],
-        [$sessionHandler, 'write'],
-        [$sessionHandler, 'destroy'],
-        [$sessionHandler, 'gc'],
-        true
-    );
+    session_set_save_handler($sessionHandler, true);
     session_start();
 }
 

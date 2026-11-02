@@ -32,11 +32,17 @@ function getDatabase()
         if (!is_file($caPath) || !is_readable($caPath)) {
             throw new RuntimeException('DB_CA_CERT must point to a readable CA certificate.');
         }
-        if (!defined('PDO::MYSQL_ATTR_SSL_CA') || !defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
+        if (class_exists('Pdo\\Mysql')) {
+            $sslCaOption = constant('Pdo\\Mysql::ATTR_SSL_CA');
+            $verifyServerOption = constant('Pdo\\Mysql::ATTR_SSL_VERIFY_SERVER_CERT');
+        } elseif (defined('PDO::MYSQL_ATTR_SSL_CA') && defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
+            $sslCaOption = constant('PDO::MYSQL_ATTR_SSL_CA');
+            $verifyServerOption = constant('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT');
+        } else {
             throw new RuntimeException('The PDO MySQL driver is required for database TLS.');
         }
-        $options[constant('PDO::MYSQL_ATTR_SSL_CA')] = $caPath;
-        $options[constant('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')] = true;
+        $options[$sslCaOption] = $caPath;
+        $options[$verifyServerOption] = true;
     } elseif (!in_array(strtolower($host), ['localhost', '127.0.0.1', '::1'], true)) {
         throw new RuntimeException('Set DB_CA_CERT to a readable CA certificate for remote MySQL connections.');
     }
