@@ -97,7 +97,9 @@ function storeAnnouncementImages($fileField, $required = true)
             } else {
                 $written = imagewebp($image, $destination, 88);
             }
-            imagedestroy($image);
+            if (PHP_VERSION_ID < 80000) {
+                imagedestroy($image);
+            }
             if (!$written) {
                 throw new RuntimeException('Une photo n’a pas pu être enregistrée.');
             }
