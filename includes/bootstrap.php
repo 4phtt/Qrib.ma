@@ -163,6 +163,28 @@ function requireLogin()
     }
 }
 
+function currentUserIsAdmin()
+{
+    if (empty($_SESSION['annonceur_id'])) {
+        return false;
+    }
+    $statement = db()->prepare('SELECT role FROM annonceurs WHERE id_annonceurs = :id');
+    $statement->execute([':id' => (int) $_SESSION['annonceur_id']]);
+    return $statement->fetchColumn() === 'admin';
+}
+
+function requireAdmin()
+{
+    if (empty($_SESSION['annonceur_id'])) {
+        setFlash('error', 'Connectez-vous avec un compte administrateur.');
+        redirectTo('login.php');
+    }
+    if (!currentUserIsAdmin()) {
+        http_response_code(403);
+        exit('Accès réservé aux administrateurs.');
+    }
+}
+
 function categoryRows()
 {
     return db()->query('SELECT id_categorie, nom_categorie FROM categorie ORDER BY nom_categorie')->fetchAll();

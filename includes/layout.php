@@ -10,6 +10,9 @@ function renderHeader()
     echo '<a class="logo" href="index.php"><span class="logo-mark">Q</span><span>Qrib <span class="logo-dot">.ma</span></span></a>';
     echo '<div class="nav-search"><form action="annonces.php" method="get"><input class="field" name="q" placeholder="Que cherchez-vous ?" type="search" value="' . h($searchQuery) . '"></form></div>';
     echo '<div class="nav-actions"><a class="btn btn-ghost" href="annonces.php">Annonces</a>';
+    if (isset($_SESSION['annonceur_role']) && $_SESSION['annonceur_role'] === 'admin') {
+        echo '<a class="btn btn-ghost" href="admin.php">Administration</a>';
+    }
     $accountHref = !empty($_SESSION['annonceur_id'])
         ? 'profil.php?id=' . (int) $_SESSION['annonceur_id']
         : 'login.php';

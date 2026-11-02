@@ -36,3 +36,11 @@ a.btn-link,.breadcrumbs a{cursor:pointer}
 .current-photos-grid img{width:100px;height:80px;object-fit:cover;border:1px solid var(--line);border-radius:var(--radius-sm)}
 .form-actions .btn{margin-right:8px}
 .logout-form{display:inline-flex;margin:0}
+.admin-list-wrap{overflow-x:auto;margin-top:18px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--white)}
+.admin-list{width:100%;min-width:720px;border-collapse:collapse;text-align:left}
+.admin-list th,.admin-list td{padding:13px 15px;border-bottom:1px solid var(--line);vertical-align:middle}
+.admin-list th{color:var(--muted);font-size:12px;font-weight:700;white-space:nowrap}
+.admin-list td{font-size:14px}
+.admin-list td a:not(.btn){color:var(--navy);font-weight:700;text-decoration:none}
+.admin-list td span{display:block;margin-top:4px;color:var(--muted);font-size:12px}
+.admin-list tbody tr:last-child td{border-bottom:0}

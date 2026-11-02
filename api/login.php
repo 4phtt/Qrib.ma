@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $normalizedPhone = preg_replace('/[\s().-]/', '', $identifier);
         $findUser = db()->prepare(
-            'SELECT id_annonceurs, nom, prenom, password
+            'SELECT id_annonceurs, nom, prenom, password, role
              FROM annonceurs WHERE email = :email OR telephone = :telephone LIMIT 1'
         );
         $findUser->execute([':email' => strtolower($identifier), ':telephone' => $normalizedPhone]);
@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         session_regenerate_id(true);
         $_SESSION['annonceur_id'] = (int) $user['id_annonceurs'];
         $_SESSION['annonceur_nom'] = $user['prenom'];
+        $_SESSION['annonceur_role'] = $user['role'];
         setFlash('success', 'Bienvenue sur Qrib.ma.');
         redirectTo('index.php');
     } catch (InvalidArgumentException $exception) {
