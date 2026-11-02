@@ -44,3 +44,6 @@ a.btn-link,.breadcrumbs a{cursor:pointer}
 .admin-list td a:not(.btn){color:var(--navy);font-weight:700;text-decoration:none}
 .admin-list td span{display:block;margin-top:4px;color:var(--muted);font-size:12px}
 .admin-list tbody tr:last-child td{border-bottom:0}
+.admin-actions{display:flex;align-items:center;gap:8px}
+.admin-actions form{margin:0}
+.admin-delete-button{color:#9e2435;border-color:#f4cbd1;background:#fff0f2}
