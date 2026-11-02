@@ -45,9 +45,10 @@ function storeAnnouncementImages($fileField, $required = true)
             throw new RuntimeException('Cloudinary est configuré, mais les dépendances Composer ne sont pas installées.');
         }
         require_once $autoload;
-        if (!class_exists('\Cloudinary\Uploader')) {
+        if (!class_exists('\Cloudinary\Cloudinary')) {
             throw new RuntimeException('La bibliothèque Cloudinary est indisponible.');
         }
+        $cloudinary = new \Cloudinary\Cloudinary();
         $uploadDirectory = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'qrib-uploads';
     } else {
         $uploadDirectory = dirname(__DIR__) . '/uploads';
@@ -103,7 +104,7 @@ function storeAnnouncementImages($fileField, $required = true)
 
             if ($useCloudinary) {
                 try {
-                    $result = \Cloudinary\Uploader::upload($destination, [
+                    $result = $cloudinary->uploadApi()->upload($destination, [
                         'folder' => 'qrib/annonces',
                         'public_id' => bin2hex(openssl_random_pseudo_bytes(16)),
                         'resource_type' => 'image',
