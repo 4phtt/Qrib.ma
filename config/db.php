@@ -22,6 +22,12 @@ function getDatabase()
     ];
 
     $caPath = getenv('DB_CA_CERT');
+    if ($caPath === false || $caPath === '') {
+        $bundledCaPath = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'certs' . DIRECTORY_SEPARATOR . 'ca.pem';
+        if (is_file($bundledCaPath) && is_readable($bundledCaPath)) {
+            $caPath = $bundledCaPath;
+        }
+    }
     if ($caPath !== false && $caPath !== '') {
         if (!is_file($caPath) || !is_readable($caPath)) {
             throw new RuntimeException('DB_CA_CERT must point to a readable CA certificate.');
