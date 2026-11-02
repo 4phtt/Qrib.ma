@@ -33,7 +33,7 @@ renderPageStart($ad ? $ad['titre'] : 'Annonce introuvable');
         </div>
       </section>
       <aside class="seller-card">
-        <div class="seller-row"><div class="avatar"><?= h(textInitials($ad['prenom'], $ad['nom'])) ?></div><div><div class="seller-name"><?= h($ad['prenom'] . ' ' . $ad['nom']) ?></div><div class="muted small">Vendeur à <?= h($ad['ville_vendeur']) ?></div></div></div>
+        <a class="seller-row seller-profile-link" href="profil.php?id=<?= (int) $ad['id_annonceurs'] ?>"><div class="avatar"><?= h(textInitials($ad['prenom'], $ad['nom'])) ?></div><div><div class="seller-name"><?= h($ad['prenom'] . ' ' . $ad['nom']) ?></div><div class="muted small">Vendeur à <?= h($ad['ville_vendeur']) ?></div></div></a>
         <?php if (!empty($_SESSION['annonceur_id']) && (int) $_SESSION['annonceur_id'] === (int) $ad['id_annonceurs']): ?>
           <a class="btn btn-outline wide" href="publier.php?id=<?= (int) $ad['id_annonce'] ?>">Modifier mon annonce</a>
         <?php endif; ?>

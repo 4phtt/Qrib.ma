@@ -21,6 +21,8 @@ a.btn-link,.breadcrumbs a{cursor:pointer}
 .form-message.success{color:#08724f;background:#e7f8f1;border:1px solid #bcebd7}
 .seller-contact{display:grid;gap:8px;margin:18px 0;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .seller-contact a{color:var(--blue-700);overflow-wrap:anywhere}
+.seller-profile-link{color:inherit;text-decoration:none}
+.seller-profile-link:hover .seller-name{text-decoration:underline}
 .gallery-thumbs img{width:88px;height:68px;object-fit:cover}
 .result-list .ads-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .category-ad-grid{margin-top:24px}

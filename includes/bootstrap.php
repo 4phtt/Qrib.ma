@@ -204,6 +204,10 @@ function announcementRows($filters = [], $limit = null)
         $conditions[] = 'c.id_categorie = :page_category_id';
         $parameters[':page_category_id'] = (int) $filters['id_categorie'];
     }
+    if (!empty($filters['id_annonceur'])) {
+        $conditions[] = 'a.id_annonceurs = :seller_id';
+        $parameters[':seller_id'] = (int) $filters['id_annonceur'];
+    }
     if (!empty($filters['ville'])) {
         $conditions[] = 'a.ville = :city';
         $parameters[':city'] = $filters['ville'];
