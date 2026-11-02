@@ -29,7 +29,7 @@ renderPageStart($ad ? $ad['titre'] : 'Annonce introuvable');
         <div class="detail-card">
           <div class="detail-head"><div><div class="page-title detail-title"><?= h($ad['titre']) ?></div><div class="ad-meta"><span><?= h($ad['ville']) ?></span><span><?= h($ad['nom_categorie']) ?> · <?= h($ad['nom_sous_categorie']) ?></span></div></div><div class="detail-price"><?= h(number_format((float) $ad['prix'], 0, ',', ' ')) ?> DH</div></div>
           <div class="divider"></div><div class="content-title">Description</div><p class="description"><?= nl2br(h($ad['description'])) ?></p>
-          <div class="specs"><div><span>Catégorie</span><strong><?= h($ad['nom_categorie']) ?></strong></div><div><span>Sous-catégorie</span><strong><?= h($ad['nom_sous_categorie']) ?></strong></div><div><span>Année</span><strong><?= (int) $ad['annoe'] ?></strong></div><div><span>Localisation</span><strong><?= h($ad['ville']) ?></strong></div><div><span>Publié le</span><strong><?= h(date('d/m/Y', strtotime($ad['date_poster']))) ?></strong></div><div><span>Référence</span><strong>QRB-<?= (int) $ad['id_annonce'] ?></strong></div></div>
+          <div class="specs"><div><span>Catégorie</span><strong><?= h($ad['nom_categorie']) ?></strong></div><div><span>Sous-catégorie</span><strong><?= h($ad['nom_sous_categorie']) ?></strong></div><div><span>Année</span><strong><?= (int) $ad['annee'] ?></strong></div><div><span>Localisation</span><strong><?= h($ad['ville']) ?></strong></div><div><span>Publié le</span><strong><?= h(date('d/m/Y', strtotime($ad['date_poster']))) ?></strong></div><div><span>Référence</span><strong>QRB-<?= (int) $ad['id_annonce'] ?></strong></div></div>
         </div>
       </section>
       <aside class="seller-card">

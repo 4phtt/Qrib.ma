@@ -31,7 +31,7 @@ if ($editing) {
             'categorie' => (string) $listing['id_categorie'],
             'sous_categorie' => (string) $listing['id_sous_categorie'],
             'prix' => $listing['prix'],
-            'annee' => $listing['annoe'],
+            'annee' => $listing['annee'],
             'ville' => $listing['ville'],
         ];
         $currentImages = announcementImageList($listing['photos']);
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && (!$editing || $listing)) {
             $update = $connection->prepare(
                 'UPDATE annonces
                  SET titre = :title, description = :description, categorie = :category_name,
-                     annoe = :year, prix = :price, photos = :photos, ville = :city,
+                     annee = :year, prix = :price, photos = :photos, ville = :city,
                      id_sous_categorie = :subcategory
                  WHERE id_annonce = :id AND id_annonceurs = :owner'
             );
@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && (!$editing || $listing)) {
         $savedImages = storeAnnouncementImages($_FILES['photos']);
 
         $insert = db()->prepare(
-            'INSERT INTO annonces (titre, description, categorie, annoe, prix, photos, ville, id_annonceurs, id_sous_categorie)
+            'INSERT INTO annonces (titre, description, categorie, annee, prix, photos, ville, id_annonceurs, id_sous_categorie)
              VALUES (:title, :description, :category_name, :year, :price, :photos, :city, :seller, :subcategory)'
         );
         $insert->execute([

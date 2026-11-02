@@ -53,7 +53,7 @@ if ($minimum !== '' && $maximum !== '' && is_numeric($minimum) && is_numeric($ma
 
 $categories = categoryRows();
 $cities = db()->query("SELECT DISTINCT ville FROM annonces WHERE ville <> '' ORDER BY ville")->fetchAll(PDO::FETCH_COLUMN);
-$years = db()->query('SELECT DISTINCT annoe FROM annonces ORDER BY annoe DESC')->fetchAll(PDO::FETCH_COLUMN);
+$years = db()->query('SELECT DISTINCT annee FROM annonces ORDER BY annee DESC')->fetchAll(PDO::FETCH_COLUMN);
 $ads = $filterError === '' ? announcementRows($filters) : [];
 renderPageStart('Toutes les annonces');
 ?>
