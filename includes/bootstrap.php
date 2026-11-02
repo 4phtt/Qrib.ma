@@ -178,7 +178,7 @@ function subcategoryRows()
 
 function announcementRows($filters = [], $limit = null)
 {
-    $sql = 'SELECT a.id_annonce, a.titre, a.description, a.categorie, a.annoe, a.prix, a.photos, a.date_poster,
+    $sql = 'SELECT a.id_annonce, a.titre, a.description, a.categorie, a.annoce, a.prix, a.photos, a.date_poster,
                    a.ville, a.id_sous_categorie, sc.nom_sous_categorie, c.id_categorie, c.nom_categorie,
                    u.nom, u.prenom, u.telephone, u.email
             FROM annonces a
@@ -209,7 +209,7 @@ function announcementRows($filters = [], $limit = null)
         $parameters[':city'] = $filters['ville'];
     }
     if (!empty($filters['annee'])) {
-        $conditions[] = 'a.annoe = :year';
+        $conditions[] = 'a.annoce = :year';
         $parameters[':year'] = (int) $filters['annee'];
     }
     if (isset($filters['prix_min']) && $filters['prix_min'] !== '') {
