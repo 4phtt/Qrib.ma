@@ -11,7 +11,7 @@ function renderHeader()
     echo '<div class="nav-search"><form action="annonces.php" method="get"><input class="field" name="q" placeholder="Que cherchez-vous ?" type="search" value="' . h($searchQuery) . '"></form></div>';
     echo '<div class="nav-actions"><a class="btn btn-ghost" href="annonces.php">Annonces</a>';
     if (isset($_SESSION['annonceur_role']) && $_SESSION['annonceur_role'] === 'admin') {
-        echo '<a class="btn btn-ghost" href="administration.php">Administration</a>';
+        echo '<a class="btn btn-ghost" href="admin.php">Administration</a>';
     }
     $accountHref = !empty($_SESSION['annonceur_id'])
         ? 'profil.php?id=' . (int) $_SESSION['annonceur_id']

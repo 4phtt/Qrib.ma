@@ -163,20 +163,26 @@ function requireLogin()
     }
 }
 
-function requireAdmin()
+function currentUserIsAdmin()
 {
     if (empty($_SESSION['annonceur_id'])) {
-        redirectTo('login.php');
+        return false;
     }
     $statement = db()->prepare('SELECT role FROM annonceurs WHERE id_annonceurs = :id');
     $statement->execute([':id' => (int) $_SESSION['annonceur_id']]);
-    $role = $statement->fetchColumn();
-    if ($role !== 'admin') {
-        unset($_SESSION['annonceur_role']);
-        http_response_code(403);
-        exit('Accès réservé à l’administrateur.');
+    return $statement->fetchColumn() === 'admin';
+}
+
+function requireAdmin()
+{
+    if (empty($_SESSION['annonceur_id'])) {
+        setFlash('error', 'Connectez-vous avec un compte administrateur.');
+        redirectTo('login.php');
     }
-    $_SESSION['annonceur_role'] = 'admin';
+    if (!currentUserIsAdmin()) {
+        http_response_code(403);
+        exit('Accès réservé aux administrateurs.');
+    }
 }
 
 function announcementIsExpired($ad)

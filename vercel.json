@@ -15,6 +15,7 @@
     { "source": "/annonce.html", "destination": "/api/annonce.php" },
     { "source": "/annonce.php", "destination": "/api/annonce.php" },
     { "source": "/profil.php", "destination": "/api/profil.php" },
+    { "source": "/admin.php", "destination": "/api/admin.php" },
     { "source": "/signup.html", "destination": "/api/signup.php" },
     { "source": "/signup.php", "destination": "/api/signup.php" },
     { "source": "/login.html", "destination": "/api/login.php" },

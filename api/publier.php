@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../includes/layout.php';
 require_once __DIR__ . '/../includes/announcement-images.php';
 requireLogin();
+$isAdmin = currentUserIsAdmin();
 
 $error = '';
 $categories = categoryRows();
@@ -18,9 +19,13 @@ if ($editing) {
         'SELECT a.*, sc.id_categorie
          FROM annonces a
          INNER JOIN sous_categorie sc ON sc.id_sous_categorie = a.id_sous_categorie
-         WHERE a.id_annonce = :id AND a.id_annonceurs = :owner'
+         WHERE a.id_annonce = :id AND (:is_admin = 1 OR a.id_annonceurs = :owner)'
     );
-    $findListing->execute([':id' => $editId, ':owner' => (int) $_SESSION['annonceur_id']]);
+    $findListing->execute([
+        ':id' => $editId,
+        ':is_admin' => $isAdmin ? 1 : 0,
+        ':owner' => (int) $_SESSION['annonceur_id'],
+    ]);
     $listing = $findListing->fetch();
     if (!$listing) {
         http_response_code(404);
@@ -82,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && (!$editing || $listing)) {
                  SET titre = :title, description = :description, categorie = :category_name,
                      annee = :year, prix = :price, photos = :photos, ville = :city,
                      id_sous_categorie = :subcategory
-                 WHERE id_annonce = :id AND id_annonceurs = :owner'
+                 WHERE id_annonce = :id AND (:is_admin = 1 OR id_annonceurs = :owner)'
             );
             $update->execute([
                 ':title' => $values['titre'],
@@ -94,6 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && (!$editing || $listing)) {
                 ':city' => $values['ville'],
                 ':subcategory' => (int) $subcategory['id_sous_categorie'],
                 ':id' => $editId,
+                ':is_admin' => $isAdmin ? 1 : 0,
                 ':owner' => (int) $_SESSION['annonceur_id'],
             ]);
             $connection->commit();
