@@ -15,6 +15,7 @@ $ad = $statement->fetch();
 if (!$ad) {
     http_response_code(404);
 }
+$expired = $ad && announcementIsExpired($ad);
 $photos = $ad ? announcementImageList($ad['photos']) : [];
 renderPageStart($ad ? $ad['titre'] : 'Annonce introuvable');
 ?>
@@ -28,6 +29,7 @@ renderPageStart($ad ? $ad['titre'] : 'Annonce introuvable');
           <?php if (count($photos) > 1): ?><div class="gallery-thumbs"><?php foreach (array_slice($photos, 0, 10) as $photo): ?><img alt="<?= h($ad['titre']) ?>" loading="lazy" src="<?= validImageUrl($photo) ?>"><?php endforeach; ?></div><?php endif; ?>
         </div>
         <div class="detail-card">
+          <?php if ($expired): ?><p class="form-message expired-message" role="status">Cette annonce a expiré et a été désactivée. Elle n’est plus disponible.</p><?php endif; ?>
           <div class="detail-head"><div><div class="page-title detail-title"><?= h($ad['titre']) ?></div><div class="ad-meta"><span><?= h($ad['ville']) ?></span><span><?= h($ad['nom_categorie']) ?> · <?= h($ad['nom_sous_categorie']) ?></span></div></div><div class="detail-price"><?= h(number_format((float) $ad['prix'], 0, ',', ' ')) ?> DH</div></div>
           <div class="divider"></div><div class="content-title">Description</div><p class="description"><?= nl2br(h($ad['description'])) ?></p>
           <div class="specs"><div><span>Catégorie</span><strong><?= h($ad['nom_categorie']) ?></strong></div><div><span>Sous-catégorie</span><strong><?= h($ad['nom_sous_categorie']) ?></strong></div><div><span>Année</span><strong><?= (int) $ad['annee'] ?></strong></div><div><span>Localisation</span><strong><?= h($ad['ville']) ?></strong></div><div><span>Publié le</span><strong><?= h(date('d/m/Y', strtotime($ad['date_poster']))) ?></strong></div><div><span>Référence</span><strong>QRB-<?= (int) $ad['id_annonce'] ?></strong></div></div>
@@ -35,12 +37,16 @@ renderPageStart($ad ? $ad['titre'] : 'Annonce introuvable');
       </section>
       <aside class="seller-card">
         <a class="seller-row seller-profile-link" href="profil.php?id=<?= (int) $ad['id_annonceurs'] ?>"><div class="avatar"><?= h(textInitials($ad['prenom'], $ad['nom'])) ?></div><div><div class="seller-name"><?= h($ad['prenom'] . ' ' . $ad['nom']) ?></div><div class="muted small">Vendeur à <?= h($ad['ville_vendeur']) ?></div></div></a>
-        <?php if (!empty($_SESSION['annonceur_id']) && (int) $_SESSION['annonceur_id'] === (int) $ad['id_annonceurs']): ?>
+        <?php if (!$expired && !empty($_SESSION['annonceur_id']) && (int) $_SESSION['annonceur_id'] === (int) $ad['id_annonceurs']): ?>
           <a class="btn btn-outline wide" href="publier.php?id=<?= (int) $ad['id_annonce'] ?>">Modifier mon annonce</a>
         <?php endif; ?>
-        <div class="seller-contact"><strong>Coordonnées du vendeur</strong><a href="tel:<?= h($ad['telephone']) ?>"><?= h($ad['telephone']) ?></a><a href="mailto:<?= h($ad['email']) ?>"><?= h($ad['email']) ?></a></div>
-        <a class="btn btn-primary wide" href="tel:<?= h($ad['telephone']) ?>">Appeler le vendeur</a>
-        <a class="btn btn-secondary wide" href="mailto:<?= h($ad['email']) ?>">Écrire au vendeur</a>
+        <?php if (!$expired): ?>
+          <div class="seller-contact"><strong>Coordonnées du vendeur</strong><a href="tel:<?= h($ad['telephone']) ?>"><?= h($ad['telephone']) ?></a><a href="mailto:<?= h($ad['email']) ?>"><?= h($ad['email']) ?></a></div>
+          <a class="btn btn-primary wide" href="tel:<?= h($ad['telephone']) ?>">Appeler le vendeur</a>
+          <a class="btn btn-secondary wide" href="mailto:<?= h($ad['email']) ?>">Écrire au vendeur</a>
+        <?php else: ?>
+          <p class="muted expired-contact-note">Les coordonnées ne sont plus disponibles pour cette annonce.</p>
+        <?php endif; ?>
         <div class="safe-note"><div><strong>Achetez en toute sécurité</strong><span>Ne payez jamais à l’avance. Rencontrez le vendeur dans un lieu public.</span></div></div>
       </aside>
     </div>

@@ -163,6 +163,27 @@ function requireLogin()
     }
 }
 
+function requireAdmin()
+{
+    if (empty($_SESSION['annonceur_id'])) {
+        redirectTo('login.php');
+    }
+    $statement = db()->prepare('SELECT role FROM annonceurs WHERE id_annonceurs = :id');
+    $statement->execute([':id' => (int) $_SESSION['annonceur_id']]);
+    $role = $statement->fetchColumn();
+    if ($role !== 'admin') {
+        unset($_SESSION['annonceur_role']);
+        http_response_code(403);
+        exit('Accès réservé à l’administrateur.');
+    }
+    $_SESSION['annonceur_role'] = 'admin';
+}
+
+function announcementIsExpired($ad)
+{
+    return isset($ad['statut']) && $ad['statut'] === 'Expiré';
+}
+
 function categoryRows()
 {
     return db()->query('SELECT id_categorie, nom_categorie FROM categorie ORDER BY nom_categorie')->fetchAll();
@@ -178,7 +199,7 @@ function subcategoryRows()
 
 function announcementRows($filters = [], $limit = null)
 {
-    $sql = 'SELECT a.id_annonce, a.titre, a.description, a.categorie, a.annee, a.prix, a.photos, a.date_poster,
+    $sql = 'SELECT a.id_annonce, a.titre, a.description, a.categorie, a.annee, a.prix, a.photos, a.date_poster, a.statut,
                    a.ville, a.id_sous_categorie, sc.nom_sous_categorie, c.id_categorie, c.nom_categorie,
                    u.nom, u.prenom, u.telephone, u.email
             FROM annonces a
@@ -272,8 +293,13 @@ function renderAnnouncementCard($ad)
     $city = h($ad['ville']);
     $description = h($ad['description']);
     $id = (int) $ad['id_annonce'];
+    $expired = announcementIsExpired($ad);
     echo '<a class="card-link" href="annonce.php?id=' . $id . '"><article class="ad-card">';
-    echo '<div class="ad-image-wrap"><img alt="' . $title . '" class="ad-image" loading="lazy" src="' . $image . '"></div>';
+    echo '<div class="ad-image-wrap"><img alt="' . $title . '" class="ad-image" loading="lazy" src="' . $image . '">';
+    if ($expired) {
+        echo '<span class="announcement-status">Expirée</span>';
+    }
+    echo '</div>';
     echo '<div class="ad-body"><div class="ad-title">' . $title . '</div>';
     echo '<div class="ad-desc">' . $description . '</div><div class="ad-price">' . h($price) . '</div>';
     echo '<div class="ad-meta"><span>' . $city . '</span><span>' . h($ad['nom_categorie']) . '</span></div></div></article></a>';
