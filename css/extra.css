@@ -23,6 +23,7 @@ a.btn-link,.breadcrumbs a{cursor:pointer}
 .expired-message{color:#9e2435;background:#fff0f2;border:1px solid #f4cbd1}
 .expired-contact-note{margin-top:18px}
 .admin-status-expired{color:#9e2435;font-weight:700}
+.admin-status-pending{color:#a45b00;font-weight:700}
 .admin-status-active{color:#08724f;font-weight:700}
 @media(max-width:720px){.nav-actions{gap:4px}.nav-actions .btn{padding-inline:8px;font-size:12px}}
 .seller-contact{display:grid;gap:8px;margin:18px 0;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
